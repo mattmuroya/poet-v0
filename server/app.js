@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const { MONGODB_URL } = require('./utils/config');
 
+const middleware = require('./middleware/middleware');
 const signupRouter = require('./controllers/signupRouter');
 
 (async () => {
@@ -20,12 +21,16 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(express.json());
 
+app.use(middleware.reqLogger);
+
 // TOKEN EXTRACTOR
 
 // ROUTES
 app.use('/api/signup', signupRouter);
 
 // CATCHALL ENDPOINT
+app.use(middleware.catchAll);
+
 // ERROR HANDLER
 
 module.exports = app;
