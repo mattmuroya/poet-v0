@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const { MONGODB_URL } = require('./utils/config');
 
+const signupRouter = require('./controllers/signupRouter');
+
 (async () => {
   try {
     await mongoose.connect(MONGODB_URL);
@@ -21,6 +23,7 @@ app.use(express.json());
 // TOKEN EXTRACTOR
 
 // ROUTES
+app.use('/api/signup', signupRouter);
 
 // CATCHALL ENDPOINT
 // ERROR HANDLER
