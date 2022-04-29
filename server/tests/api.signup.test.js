@@ -4,8 +4,8 @@ const app = require('../app');
 const api = supertest(app);
 
 const { resetTestDb } = require('./utils');
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
+// const bcrypt = require('bcrypt');
+// const User = require('../models/user');
 
 beforeAll(resetTestDb);
 
