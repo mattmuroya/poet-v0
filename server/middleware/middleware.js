@@ -1,10 +1,11 @@
+const { info } = require('../utils/info');
 
 const reqLogger = (req, _res, next) => {
-  console.log('---');
-  console.log('Time:   ', (new Date()).toLocaleTimeString());
-  console.log('Method: ', req.method);
-  console.log('Path:   ', req.path);
-  console.log('Body:   ', req.body);
+  info('---');
+  info('Time:   ', (new Date()).toLocaleTimeString());
+  info('Method: ', req.method);
+  info('Path:   ', req.path);
+  info('Body:   ', req.body);
   next();
 };
 

@@ -27,7 +27,6 @@ describe('adding new users to the database', () => {
         password: 'hunter33'
       })
       .expect(409);
-    console.log(response.error);
     expect(response.error.text).toBe('{"error":"Username already exists."}');
   });
 

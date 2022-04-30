@@ -24,7 +24,7 @@ describe('user login', () => {
     const response = await api.post('/api/login')
       .send({
         username: 'admin',
-        password: 'goodbyeworld'
+        password: 'dlrowolleh'
       })
       .expect(401);
     expect(response.error.text).toBe('{"error":"Invalid username or password."}');

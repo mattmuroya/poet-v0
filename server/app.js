@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const { MONGODB_URL } = require('./utils/config');
+const { info } = require ('./utils/info');
 
 const middleware = require('./middleware/middleware');
 const signupRouter = require('./controllers/signupRouter');
@@ -9,9 +10,9 @@ const signupRouter = require('./controllers/signupRouter');
 (async () => {
   try {
     await mongoose.connect(MONGODB_URL);
-    console.log('MongoDB connected.');
+    info('MongoDB connected.');
   } catch (err) {
-    console.log('MongoDB connection error: ', err.message);
+    info('MongoDB connection error: ', err.message);
   }
 })();
 
