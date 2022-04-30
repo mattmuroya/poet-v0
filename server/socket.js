@@ -1,7 +1,9 @@
 const { info } = require('./utils/info');
 
 const socket = socket => {
-  console.log('user connected');
+  info('---');
+  info('user connected');
+  info(socket.id)
 
   socket.on('disconnect', () => {
     info('user disconnected');
