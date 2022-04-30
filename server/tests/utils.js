@@ -11,7 +11,6 @@ const resetTestDb = async () => {
       username: 'admin',
       password: 'helloworld'
     });
-  console.log(response.body);
 };
 
 module.exports = {

@@ -6,6 +6,7 @@ const { info } = require ('./utils/info');
 
 const middleware = require('./middleware/middleware');
 const signupRouter = require('./controllers/signupRouter');
+const loginRouter = require('./controllers/loginRouter');
 
 (async () => {
   try {
@@ -28,6 +29,7 @@ app.use(middleware.reqLogger);
 
 // ROUTES
 app.use('/api/signup', signupRouter);
+app.use('/api/login', loginRouter);
 
 // CATCHALL ENDPOINT
 app.use(middleware.catchAll);
