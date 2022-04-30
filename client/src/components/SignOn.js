@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SignOn = ({ handleLogin }) => {
+const SignOn = ({ handleSignOn }) => {
   const [screenName, setScreenName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,7 +10,7 @@ const SignOn = ({ handleLogin }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleLogin(screenName, password)}
+          handleSignOn(screenName, password)}
         }
       >
         <div>
