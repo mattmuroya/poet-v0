@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: {
+  screenName: {
     type: String,
     minlength: 1,
     maxlength: 32,
     required: true,
-    unique: true
+    // unique: true
   },
   passwordHash: String
 });

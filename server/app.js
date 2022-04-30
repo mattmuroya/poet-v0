@@ -5,8 +5,8 @@ const { MONGODB_URL } = require('./utils/config');
 const { info } = require ('./utils/info');
 
 const middleware = require('./middleware/middleware');
-const signupRouter = require('./controllers/signupRouter');
-const loginRouter = require('./controllers/loginRouter');
+const registerRouter = require('./controllers/registerRouter');
+const signOnRouter = require('./controllers/signOnRouter');
 
 (async () => {
   try {
@@ -28,8 +28,8 @@ app.use(middleware.reqLogger);
 // TOKEN EXTRACTOR
 
 // ROUTES
-app.use('/api/signup', signupRouter);
-app.use('/api/login', loginRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/sign-on', signOnRouter);
 
 // CATCHALL ENDPOINT
 app.use(middleware.catchAll);

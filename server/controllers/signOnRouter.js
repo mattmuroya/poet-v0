@@ -1,10 +1,10 @@
-const loginRouter = require('express').Router();
+const signOnRouter = require('express').Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-loginRouter.post('/', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
+signOnRouter.post('/', async (req, res) => {
+  const { screenName, password } = req.body;
+  const user = await User.findOne({ screenName });
 
   const passwordCorrect = user === null
     ? false
@@ -12,13 +12,13 @@ loginRouter.post('/', async (req, res) => {
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
-      error: 'Invalid username or password.'
+      error: 'Invalid ScreenName or password.'
     })
   }
 
   res.status(200).send({
-    username: user.username
+    screenName: user.screenName
   });
 });
 
-module.exports = loginRouter;
+module.exports = signOnRouter;

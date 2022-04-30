@@ -6,9 +6,9 @@ const User = require('../models/user');
 
 const resetTestDb = async () => {
   await User.deleteMany({});
-  const response = await api.post('/api/signup')
+  await api.post('/api/register')
     .send({
-      username: 'admin',
+      screenName: 'admin',
       password: 'helloworld'
     });
 };

@@ -1,23 +1,23 @@
-const signupRouter = require('express').Router();
+const registerRouter = require('express').Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-signupRouter.post('/', async (req, res) => {
-  const { username, password } = req.body;
+registerRouter.post('/', async (req, res) => {
+  const { screenName, password } = req.body;
 
-  if (!(username && password)) {
-    return res.status(400).json({ error: 'Username and password required.' });
+  if (!(screenName && password)) {
+    return res.status(400).json({ error: 'ScreenName and password required.' });
   }
 
-  if (await User.findOne({ username })) {
+  if (await User.findOne({ screenName })) {
     return res.status(409).json({
-      error: 'Username already exists.'
+      error: 'ScreenName already exists.'
     });
   }
 
-  if (username.length > 32) {
+  if (screenName.length > 32) {
     return res.status(400).json({
-      error: 'Usernames limited to 32 characters.'
+      error: 'ScreenName limited to 32 characters.'
     });
   }
 
@@ -29,7 +29,7 @@ signupRouter.post('/', async (req, res) => {
 
   const passwordHash = await bcrypt.hash(password, 10);
   const user = new User({
-    username,
+    screenName,
     passwordHash
   });
 
@@ -37,4 +37,4 @@ signupRouter.post('/', async (req, res) => {
   res.status(201).json(savedUser);
 });
 
-module.exports = signupRouter;
+module.exports = registerRouter;

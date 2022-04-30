@@ -9,36 +9,35 @@ const { resetTestDb } = require('./utils');
 
 beforeAll(resetTestDb);
 
-describe('user login', () => {
+describe('user sign on', () => {
   test('admin can log in', async () => {
-    const res = await api.post('/api/login')
+    const res = await api.post('/api/sign-on')
       .send({
-        username: 'admin',
+        screenName: 'admin',
         password: 'helloworld'
       })
       .expect(200)
-      .expect('Content-Type', /application\/json/);
-    expect(res.body.username).toBe('admin');
+    expect(res.body.screenName).toBe('admin');
   });
   
   test('reject wrong password', async () => {
-    const res = await api.post('/api/login')
+    const res = await api.post('/api/sign-on')
       .send({
-        username: 'admin',
+        screenName: 'admin',
         password: 'dlrowolleh'
       })
       .expect(401);
-    expect(res.error.text).toBe('{"error":"Invalid username or password."}');
+    expect(res.error.text).toBe('{"error":"Invalid ScreenName or password."}');
   });
 
-  test('reject invalid username', async () => {
-    const res = await api.post('/api/login')
+  test('reject invalid ScreenName', async () => {
+    const res = await api.post('/api/sign-on')
       .send({
-        username: 'idontexist',
+        screenName: 'idontexist',
         password: 'helloworld'
       })
       .expect(401);
-    expect(res.error.text).toBe('{"error":"Invalid username or password."}');
+    expect(res.error.text).toBe('{"error":"Invalid ScreenName or password."}');
   });
 });
 
