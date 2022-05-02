@@ -5,6 +5,7 @@ const { MONGODB_URL } = require('./utils/config');
 const { info } = require ('./utils/info');
 
 const middleware = require('./middleware/middleware');
+const userRouter = require('./controllers/userRouter');
 const registerRouter = require('./controllers/registerRouter');
 const signOnRouter = require('./controllers/signOnRouter');
 
@@ -28,6 +29,7 @@ app.use(middleware.reqLogger);
 // TOKEN EXTRACTOR
 
 // ROUTES
+app.use('/api/users', userRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/sign-on', signOnRouter);
 

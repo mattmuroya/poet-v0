@@ -6,9 +6,16 @@ const userSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 32,
     required: true,
-    // unique: true
+    unique: true
   },
-  passwordHash: String
+  passwordHash: String,
+  buddyList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      // specify 'User' model referenced by this obj Id references
+      ref: 'User'
+    }
+  ]
 });
 
 userSchema.set('toJSON', {
