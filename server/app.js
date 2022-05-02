@@ -6,6 +6,7 @@ const { info } = require ('./utils/info');
 
 const middleware = require('./middleware/middleware');
 const userRouter = require('./controllers/userRouter');
+const roomRouter = require('./controllers/roomRouter');
 const registerRouter = require('./controllers/registerRouter');
 const signOnRouter = require('./controllers/signOnRouter');
 
@@ -30,6 +31,7 @@ app.use(middleware.reqLogger);
 
 // ROUTES
 app.use('/api/users', userRouter);
+app.use('/api/rooms', roomRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/sign-on', signOnRouter);
 
