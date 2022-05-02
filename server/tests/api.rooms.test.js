@@ -30,6 +30,7 @@ describe('getting rooms', () => {
         buddyId: buddy._id.toString()
       })
       .expect(200);
+      console.log(res.body);
     expect(res.body.id).toBe(room._id.toString());
   });
 });

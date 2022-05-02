@@ -36,9 +36,9 @@ const App = () => {
   };
   
   // const joinRoom = async (userId, buddyId) => {
-  //   console.log('join room', userId, buddyId);
+  //   console.log(userId, buddyId)
   //   try {
-  //     const room = await axios.get('/api/rooms',{
+  //     const room = await axios.get('/api/rooms/buddy-chat', {
   //       userId,
   //       buddyId
   //     });
