@@ -2,11 +2,12 @@ const roomRouter = require('express').Router();
 const Room = require('../models/room');
 
 roomRouter.get('/', async (req, res) => {
-  const rooms = await Room.find({})
-    .populate('users', {
-      screenName: 1,
-      id: 1
-  });
+  // const rooms = await Room.find({})
+  //   .populate('users', {
+  //     screenName: 1,
+  //     id: 1
+  // });
+  const rooms = await Room.find({});
   res.json(rooms);
 });
 
