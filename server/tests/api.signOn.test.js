@@ -14,7 +14,7 @@ describe('user sign on', () => {
     const res = await api.post('/api/sign-on')
       .send({
         screenName: 'admin',
-        password: 'helloworld'
+        password: 'admin1234'
       })
       .expect(200)
     expect(res.body.screenName).toBe('admin');
@@ -24,7 +24,7 @@ describe('user sign on', () => {
     const res = await api.post('/api/sign-on')
       .send({
         screenName: 'admin',
-        password: 'dlrowolleh'
+        password: 'wrongpwd'
       })
       .expect(401);
     expect(res.error.text).toBe('{"error":"Invalid ScreenName or password."}');

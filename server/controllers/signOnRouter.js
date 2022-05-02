@@ -17,7 +17,7 @@ signOnRouter.post('/', async (req, res) => {
     })
   }
 
-  res.status(200).send(user);
+  res.status(200).json(user);
 });
 
 module.exports = signOnRouter;

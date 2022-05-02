@@ -32,9 +32,8 @@ registerRouter.post('/', async (req, res) => {
     screenName,
     passwordHash
   });
-
-  const savedUser = await user.save();
-  res.status(201).json(savedUser);
+  await user.save();
+  res.status(201).json(user);
 });
 
 module.exports = registerRouter;
