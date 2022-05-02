@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 
 signOnRouter.post('/', async (req, res) => {
   const { screenName, password } = req.body;
-  const user = await User.findOne({ screenName });
+  const user = await User.findOne({ screenName })
+    .populate('buddyList');
 
   const passwordCorrect = user === null
     ? false
@@ -17,7 +18,8 @@ signOnRouter.post('/', async (req, res) => {
   }
 
   res.status(200).send({
-    screenName: user.screenName
+    screenName: user.screenName,
+    buddyList: user.buddyList
   });
 });
 

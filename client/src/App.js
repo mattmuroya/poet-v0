@@ -3,10 +3,13 @@ import io from 'socket.io-client';
 import axios from 'axios';
 
 import SignOn from './components/SignOn';
+import BuddyList from './components/buddyList';
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log(user);
 
   if (user) {
     var socket = io.connect('/');
@@ -19,7 +22,10 @@ const App = () => {
         screenName,
         password
       });
-      setUser({ screenName: res.data.screenName });
+      setUser({
+        screenName: res.data.screenName,
+        buddyList: res.data.buddyList
+      });
       setErrorMessage('');
     } catch (err) {
       console.error(err.response.data);
@@ -31,20 +37,27 @@ const App = () => {
     socket.disconnect();
     setUser(null);
   };
+  
+  const joinRoom = () => {
+    console.log('join room');
+  };
 
   return (
     <div>
       {!user &&
         <div>
-          <SignOn handleSignOn={handleSignOn} />
+          <SignOn
+            handleSignOn={handleSignOn}
+          />
           {errorMessage}
         </div>
       }
       {user &&
-        <div>
-          hello, {user.screenName}
-          <button onClick={handleSignOut}>sign out</button>
-        </div>
+        <BuddyList
+          user={user}
+          handleSignOut={handleSignOut}
+          joinRoom={joinRoom}
+        />
       }
     </div>
   );
