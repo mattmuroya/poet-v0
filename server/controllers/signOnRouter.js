@@ -17,10 +17,7 @@ signOnRouter.post('/', async (req, res) => {
     })
   }
 
-  res.status(200).send({
-    screenName: user.screenName,
-    buddyList: user.buddyList
-  });
+  res.status(200).send(user);
 });
 
 module.exports = signOnRouter;

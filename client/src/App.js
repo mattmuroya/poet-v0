@@ -18,14 +18,11 @@ const App = () => {
 
   const handleSignOn = async (screenName, password) => {
     try {
-      const res = await axios.post('/api/sign-on', {
+      const user = await axios.post('/api/sign-on', {
         screenName,
         password
       });
-      setUser({
-        screenName: res.data.screenName,
-        buddyList: res.data.buddyList
-      });
+      setUser(user.data);
       setErrorMessage('');
     } catch (err) {
       console.error(err.response.data);
@@ -38,9 +35,19 @@ const App = () => {
     setUser(null);
   };
   
-  const joinRoom = () => {
-    console.log('join room');
-  };
+  // const joinRoom = async (userId, buddyId) => {
+  //   console.log('join room', userId, buddyId);
+  //   try {
+  //     const room = await axios.get('/api/rooms',{
+  //       userId,
+  //       buddyId
+  //     });
+  //     console.log(room);
+  //   } catch (err) {
+  //     console.error(err.response.data);
+  //     setErrorMessage(err.response.data.error);
+  //   }
+  // };
 
   return (
     <div>
@@ -56,7 +63,7 @@ const App = () => {
         <BuddyList
           user={user}
           handleSignOut={handleSignOut}
-          joinRoom={joinRoom}
+          // joinRoom={joinRoom}
         />
       }
     </div>

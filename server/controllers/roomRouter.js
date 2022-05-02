@@ -21,4 +21,10 @@ roomRouter.post('/', async (req, res) => {
   res.status(201).json(savedRoom);
 });
 
+roomRouter.get('/:id', async (req, res) => {
+  const room = await Room.findById(req.params.id);
+  res.json(room);
+  console.log(room);
+})
+
 module.exports = roomRouter;
