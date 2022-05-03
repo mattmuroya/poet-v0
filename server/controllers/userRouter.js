@@ -14,7 +14,8 @@ userRouter.get('/', async (req, res) => {
 userRouter.post('/sign-on', async (req, res) => {
   const { screenName, password } = req.body;
   const user = await User.findOne({ screenName })
-    .populate('buddyList');
+    // populate buddyList with screenName (and id by default) only
+    .populate('buddyList', 'screenName');
 
   const passwordCorrect = user === null
     ? false
@@ -26,7 +27,19 @@ userRouter.post('/sign-on', async (req, res) => {
     })
   }
 
-  res.status(200).json(user);
+  const token = jwt.sign({
+    screenName: user.screenName,
+    id: user._id
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: 60*60 });
+
+  res.status(200).json({
+    token,
+    screenName: user.screenName,
+    buddyList: user.buddyList,
+    id: user._id.toString(),
+  });
 });
 
 userRouter.post('/register', async (req, res) => {

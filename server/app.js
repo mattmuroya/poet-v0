@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const { MONGODB_URL } = require('./utils/config');
 const { info } = require ('./utils/info');
 
-const middleware = require('./middleware/middleware');
+const {
+  reqLogger,
+  tokenExtractor,
+  catchAll
+} = require('./middleware/middleware');
 const userRouter = require('./controllers/userRouter');
 const roomRouter = require('./controllers/roomRouter');
-// const registerRouter = require('./controllers/registerRouter');
-// const signOnRouter = require('./controllers/signOnRouter');
 
 (async () => {
   try {
@@ -23,20 +25,17 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('build'));
 }
 
+app.use(reqLogger);
+
+// MIDDLEWARE
 app.use(express.json());
-
-app.use(middleware.reqLogger);
-
-// TOKEN EXTRACTOR
+app.use(tokenExtractor)
 
 // ROUTES
 app.use('/api/users', userRouter);
 app.use('/api/rooms', roomRouter);
-// app.use('/api/register', registerRouter);
-// app.use('/api/sign-on', signOnRouter);
 
-// CATCHALL ENDPOINT
-app.use(middleware.catchAll);
+app.use(catchAll);
 
 // ERROR HANDLER
 
