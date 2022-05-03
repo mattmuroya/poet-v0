@@ -9,13 +9,13 @@ const resetTestDb = async () => {
   await User.deleteMany({});
   await Room.deleteMany({});
 
-  const admin = await api.post('/api/register')
+  const admin = await api.post('/api/users/register')
     .send({
       screenName: 'admin',
       password: 'admin1234'
     });
 
-  const root = await api.post('/api/register')
+  const root = await api.post('/api/users/register')
     .send({
       screenName: 'root',
       password: 'root1234'

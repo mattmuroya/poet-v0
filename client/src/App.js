@@ -19,7 +19,7 @@ const App = () => {
 
   const handleSignOn = async (screenName, password) => {
     try {
-      const user = await axios.post('/api/sign-on', {
+      const user = await axios.post('/api/users/sign-on', {
         screenName,
         password
       });
