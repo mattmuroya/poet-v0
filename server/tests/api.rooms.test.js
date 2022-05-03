@@ -25,7 +25,11 @@ describe('getting rooms', () => {
     // may need to refactor if test DB expands in the future.
     const room = await Room.findOne({})
     const res = await api.get('/api/rooms/buddy-chat')
-      .send({
+      // .send({
+      //   userId: user._id.toString(),
+      //   buddyId: buddy._id.toString()
+      // })
+      .query({
         userId: user._id.toString(),
         buddyId: buddy._id.toString()
       })

@@ -11,12 +11,12 @@ roomRouter.get('/', async (req, res) => {
 });
 
 roomRouter.get('/buddy-chat', async (req, res) => {
-  const { userId, buddyId } = req.body;
+  const { userId, buddyId } = req.query;
   // may need to add buddy chat property to differentiate from group chatroom
   const buddyRoom = await Room.findOne({
     users: { $all: [userId, buddyId]
   }});
-  console.log(buddyRoom);
+  // console.log(buddyRoom);
   res.json(buddyRoom);
 });
 
