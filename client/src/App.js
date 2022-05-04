@@ -8,20 +8,26 @@ import BuddyList from './components/buddyList';
 const App = () => {
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null);
+  const [checkedForSavedUser, setCheckedForSavedUser] = useState(false);
   const [room, setRoom] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('savedUser'));
-    (async () => {
-      const tokenStatus = await axios.post('/api/token/verify', {}, {
-        headers: { Authorization: `bearer ${savedUser.token}` }
-      });
-      console.log(tokenStatus.data.valid);
-      if (savedUser && tokenStatus.data.valid) {
-        setUser(savedUser);
-      }
-    })();
+    if (!savedUser) {
+      setCheckedForSavedUser(true);
+    } else {
+      (async () => {
+        const tokenStatus = await axios.post('/api/token/verify', {}, {
+          headers: { Authorization: `bearer ${savedUser.token}` }
+        });
+        // console.log(tokenStatus.data.valid);
+        if (tokenStatus.data.valid) {
+          setUser(savedUser);
+        }
+        setCheckedForSavedUser(true);
+      })();
+    }
   }, []);
 
   useEffect(() => {
@@ -68,7 +74,7 @@ const App = () => {
 
   return (
     <div>
-      {!user &&
+      {checkedForSavedUser && !user &&
         <div>
           <SignOn handleSignOn={handleSignOn} />
           {errorMessage}

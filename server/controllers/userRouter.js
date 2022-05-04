@@ -33,7 +33,7 @@ userRouter.post('/sign-on', async (req, res) => {
     id: user._id
   },
   process.env.JWT_SECRET,
-  { expiresIn: 10 });
+  { expiresIn: 60*60*24 });
 
   res.status(200).json({
     token,
