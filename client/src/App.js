@@ -14,20 +14,15 @@ const App = () => {
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('savedUser'));
-    if (!savedUser) {
-      setCheckedForSavedUser(true);
-    } else {
-      (async () => {
+    (async () => {
+      if (savedUser) {
         const tokenStatus = await axios.post('/api/token/verify', {}, {
           headers: { Authorization: `bearer ${savedUser.token}` }
         });
-        // console.log(tokenStatus.data.valid);
-        if (tokenStatus.data.valid) {
-          setUser(savedUser);
-        }
-        setCheckedForSavedUser(true);
-      })();
-    }
+        if (tokenStatus.data.valid) setUser(savedUser);
+      }
+      setCheckedForSavedUser(true);
+    })();
   }, []);
 
   useEffect(() => {
