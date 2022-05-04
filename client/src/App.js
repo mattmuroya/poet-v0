@@ -19,7 +19,13 @@ const App = () => {
         const tokenStatus = await axios.post('/api/token/verify', {}, {
           headers: { Authorization: `bearer ${savedUser.token}` }
         });
-        if (tokenStatus.data.valid) setUser(savedUser);
+        if (tokenStatus.data.valid) {
+          setUser(savedUser)
+          localStorage.setItem('savedUser', JSON.stringify({
+            ...savedUser,
+            token: tokenStatus.data.newToken
+          }));
+        }
       }
       setCheckedForSavedUser(true);
     })();

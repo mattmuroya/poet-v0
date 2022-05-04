@@ -5,7 +5,7 @@ const reqLogger = (req, _res, next) => {
   info('Time:   ', (new Date()).toLocaleTimeString());
   info('Method: ', req.method);
   info('Path:   ', req.path);
-  info('Body:   ', req.body);
+  info('Body:   ', req.body, '\n');
   next();
 };
 
