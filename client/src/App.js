@@ -11,7 +11,10 @@ const App = () => {
   const [room, setRoom] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  console.log(socket);
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+    if (savedUser) setUser(savedUser);
+  }, []);
 
   useEffect(() => {
     if (user) setSocket(io.connect('/'));
@@ -23,6 +26,7 @@ const App = () => {
         screenName,
         password
       });
+      localStorage.setItem('savedUser', JSON.stringify(user.data));
       setUser(user.data);
       setErrorMessage('');
     } catch (err) {
@@ -36,6 +40,7 @@ const App = () => {
     setRoom(null);
     setUser(null);
     setSocket(null);
+    localStorage.removeItem('savedUser');
   };
   
   const joinRoom = async (userId, buddyId) => {
@@ -47,7 +52,6 @@ const App = () => {
         }
       });
       setRoom(room.data);
-      // console.log(room)
     } catch (err) {
       console.error(err.response.data);
       setErrorMessage(err.response.data.error);

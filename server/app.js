@@ -9,6 +9,7 @@ const {
   tokenExtractor,
   catchAll
 } = require('./middleware/middleware');
+const tokenRouter = require('./controllers/tokenRouter');
 const userRouter = require('./controllers/userRouter');
 const roomRouter = require('./controllers/roomRouter');
 
@@ -25,13 +26,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('build'));
 }
 
-app.use(reqLogger);
-
 // MIDDLEWARE
 app.use(express.json());
+app.use(reqLogger);
 app.use(tokenExtractor)
 
 // ROUTES
+app.use('/api/token', tokenRouter);
 app.use('/api/users', userRouter);
 app.use('/api/rooms', roomRouter);
 
