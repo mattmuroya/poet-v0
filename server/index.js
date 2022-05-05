@@ -17,10 +17,10 @@ io.on('connection', socket => {
     console.log(`Socket ${socket.id} joined Room ${roomId}`)
   })
 
-  // socket.on('send_message', message => {
-  //   console.log('message sent to server');
-  //   io.emit('receive_message', message);
-  // });
+  socket.on('send_message', message => {
+    console.log('message sent to server');
+    socket.to(message.room).emit('receive_message', message);
+  });
 
   socket.on('disconnect', () => {
     info('user disconnected');
