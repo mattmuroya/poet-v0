@@ -16,6 +16,12 @@ roomRouter.get('/buddy-chat', async (req, res) => {
   const buddyRoom = await Room.findOne({
     users: { $all: [userId, buddyId]
   }});
+
+  if (!buddyRoom) {
+    return res.status(404).json({
+      error: 'Conversation not found.'
+    })
+  }
   // console.log(buddyRoom);
   res.json(buddyRoom);
 });
