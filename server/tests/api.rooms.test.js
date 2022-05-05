@@ -10,13 +10,28 @@ const { resetTestDb } = require('./utils');
 
 beforeAll(resetTestDb);
 
+let token, tokenWrongUser;
+
+beforeAll(async () => {
+  const res = await api.post('/api/users/sign-on')
+    .send({
+      screenName: 'admin',
+      password: 'admin1234'
+    });
+  token = res.body.token;
+
+  console.log('token: ', token)
+
+  const res2 = await api.post('/api/users/sign-on')
+    .send({
+      screenName: 'root',
+      password: 'root1234'
+    });
+  tokenWrongUser = res2.body.token;
+});
+
+
 describe('getting rooms', () => {
-  test('can get full list of rooms', async () => {
-    const res = await api.get('/api/rooms/all')
-      .expect(200);
-    expect(res.body).toHaveLength(1);
-    expect(res.body[0].users).toHaveLength(2);
-  });
 
   test('can get room by user and buddy ids', async () => {
     const user = await User.findOne({ screenName: 'admin' });
@@ -25,17 +40,17 @@ describe('getting rooms', () => {
     // may need to refactor if test DB expands in the future.
     const room = await Room.findOne({})
     const res = await api.get('/api/rooms/')
-      // .send({
-      //   userId: user._id.toString(),
-      //   buddyId: buddy._id.toString()
-      // })
+      .set({
+        Authorization: `bearer ${token}`
+      })
       .query({
         userId: user._id.toString(),
         buddyId: buddy._id.toString()
       })
       .expect(200);
-      console.log(res.body);
     expect(res.body.id).toBe(room._id.toString());
+    console.log('user and buddy: ', user._id, buddy._id)
+    console.log('response body: ', res.body)
   });
 });
 

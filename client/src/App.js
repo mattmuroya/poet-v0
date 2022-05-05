@@ -62,6 +62,9 @@ const App = () => {
   const joinRoom = async (userId, buddyId) => {
     try {
       const room = await axios.get('/api/rooms/', {
+        headers: {
+          Authorization: `bearer ${user.token}`
+        },
         params: {
           userId,
           buddyId

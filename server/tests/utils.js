@@ -32,7 +32,20 @@ const resetTestDb = async () => {
     }
   );
 
+  //=====
+     
+  const res = await api.post('/api/users/sign-on')
+    .send({
+      screenName: 'admin',
+      password: 'admin1234'
+    });
+    
+  const token = res.body.token;
+
   await api.post('/api/rooms')
+    .set({
+      Authorization: `bearer ${token}`
+    })
     .send({
       users: [
         admin.body.id,
