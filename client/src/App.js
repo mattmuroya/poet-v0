@@ -95,6 +95,7 @@ const App = () => {
       }
       {room &&
         <ChatWindow
+          socket={socket}
           room={room}
         />
       }

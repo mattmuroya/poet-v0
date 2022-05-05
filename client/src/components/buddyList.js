@@ -1,17 +1,17 @@
 const buddyList = ({ user, room, handleSignOut, joinRoom }) => {
+  
   return (
     <div>
-      <p>hello, {user.screenName}</p>
+      <span>hello, {user.screenName}</span>
+      <button onClick={handleSignOut}>sign out</button>
       <p>your buddies:</p>
       <ul>
         {user.buddyList.map(buddy => (
           <li key={buddy.id}>
-            {buddy.screenName}
-            <button onClick={() => joinRoom(user.id, buddy.id)}>join room</button>
+            <button onClick={() => joinRoom(user.id, buddy.id)}>{buddy.screenName}</button>
           </li>
         ))}
       </ul>
-      <button onClick={handleSignOut}>sign out</button>
     </div>
   );
 };
