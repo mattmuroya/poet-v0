@@ -1,7 +1,7 @@
 const roomRouter = require('express').Router();
 const Room = require('../models/room');
 
-roomRouter.get('/', async (req, res) => {
+roomRouter.get('/all', async (req, res) => {
   const rooms = await Room.find({})
     .populate('users', {
       screenName: 1,
@@ -10,12 +10,15 @@ roomRouter.get('/', async (req, res) => {
   res.json(rooms);
 });
 
-roomRouter.get('/buddy-chat', async (req, res) => {
+roomRouter.get('/', async (req, res) => {
   const { userId, buddyId } = req.query;
   // may need to add buddy chat property to differentiate from group chatroom
   const buddyRoom = await Room.findOne({
     users: { $all: [userId, buddyId]
-  }});
+  }}).populate('users', {
+    screenName: 1,
+    id: 1
+});
 
   if (!buddyRoom) {
     return res.status(404).json({

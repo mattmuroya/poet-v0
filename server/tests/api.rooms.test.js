@@ -12,7 +12,7 @@ beforeAll(resetTestDb);
 
 describe('getting rooms', () => {
   test('can get full list of rooms', async () => {
-    const res = await api.get('/api/rooms')
+    const res = await api.get('/api/rooms/all')
       .expect(200);
     expect(res.body).toHaveLength(1);
     expect(res.body[0].users).toHaveLength(2);
@@ -24,7 +24,7 @@ describe('getting rooms', () => {
     // currently there's only one room document in the test DB.
     // may need to refactor if test DB expands in the future.
     const room = await Room.findOne({})
-    const res = await api.get('/api/rooms/buddy-chat')
+    const res = await api.get('/api/rooms/')
       // .send({
       //   userId: user._id.toString(),
       //   buddyId: buddy._id.toString()
