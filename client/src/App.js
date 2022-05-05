@@ -70,6 +70,7 @@ const App = () => {
           buddyId
         }
       });
+      socket.emit('join_room', room.data.id);
       setRoom(room.data);
     } catch (err) {
       console.error(err.response.data);

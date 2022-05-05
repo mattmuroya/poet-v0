@@ -33,10 +33,6 @@ roomRouter.get('/', async (req, res) => {
     id: 1
   });
 
-  console.log(await Room.findOne({}));
-
-  console.log('room found in api: ', room);
-
   if (!room) {
     return res.status(404).json({
       error: 'Conversation not found.'

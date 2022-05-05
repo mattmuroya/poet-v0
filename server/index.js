@@ -6,7 +6,6 @@ const { info } = require('./utils/info')
 
 const server = http.createServer(app);
 const io = new Server(server);
-const socket = require('./socket');
 
 io.on('connection', socket => {
   info('---');
@@ -15,7 +14,7 @@ io.on('connection', socket => {
 
   socket.on('join_room', (roomId) => {
     socket.join(roomId)
-    console.log(`Socket ${socket} joined Room ${roomId}`)
+    console.log(`Socket ${socket.id} joined Room ${roomId}`)
   })
 
   // socket.on('send_message', message => {
