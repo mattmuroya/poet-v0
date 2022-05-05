@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 import axios from 'axios';
 
 import SignOn from './components/SignOn';
-import BuddyList from './components/buddyList';
+import BuddyList from './components/BuddyList';
+import ChatWindow from './components/ChatWindow';
 
 const App = () => {
   const [socket, setSocket] = useState(null);
@@ -60,7 +61,7 @@ const App = () => {
   
   const joinRoom = async (userId, buddyId) => {
     try {
-      const room = await axios.get('/api/rooms/buddy-chat', {
+      const room = await axios.get('/api/rooms/', {
         params: {
           userId,
           buddyId
@@ -87,6 +88,11 @@ const App = () => {
           room={room}
           handleSignOut={handleSignOut}
           joinRoom={joinRoom}
+        />
+      }
+      {room &&
+        <ChatWindow
+          room={room}
         />
       }
     </div>
