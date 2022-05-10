@@ -7,9 +7,9 @@ const Room = require('../models/room');
 const Message = require('../models/message');
 
 const resetTestDb = async () => {
+  await Message.deleteMany({});
   await User.deleteMany({});
   await Room.deleteMany({});
-  await Message.deleteMany({});
 
   const admin = await api.post('/api/users/register')
     .send({
@@ -55,16 +55,16 @@ const resetTestDb = async () => {
       ]
     });
   
-  const message = await api.post('/api/messages')
+  await api.post('/api/messages')
     .set({
       Authorization: `bearer ${token}`
     })
     .send({
       author: admin.body.id,
       room: room.body.id,
-      text: 'this is a test message',
+      text: 'this is an existing messages',
       timestamp: 'Fri May 01 2022 18:00:00 GMT-1000 (Hawaii-Aleutian Standard Time)'
-    })
+    });
 };
 
 module.exports = {

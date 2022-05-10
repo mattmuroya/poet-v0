@@ -20,8 +20,6 @@ beforeAll(async () => {
     });
   token = res.body.token;
 
-  console.log('token: ', token)
-
   const res2 = await api.post('/api/users/sign-on')
     .send({
       screenName: 'root',
@@ -49,8 +47,6 @@ describe('getting rooms', () => {
       })
       .expect(200);
     expect(res.body.id).toBe(room._id.toString());
-    console.log('user and buddy: ', user._id, buddy._id)
-    console.log('response body: ', res.body)
   });
 });
 

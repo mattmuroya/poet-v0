@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
-const Message = require('../models/room');
+const Message = require('../models/message');
 const api = supertest(app);
 
 const Room = require('../models/room');
-const User = require('../models/user');
 
 const { resetTestDb } = require('./utils');
 
@@ -70,6 +69,9 @@ describe('posting messages', () => {
         room: room._id
       })
       .expect(201);
+
+    const messagesFromDb = await Message.find({});
+    expect(messagesFromDb).toHaveLength(2);
   });
 
   test('second user can post new messages to the DB', async () => {
