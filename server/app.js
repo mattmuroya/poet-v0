@@ -12,6 +12,7 @@ const {
 const tokenRouter = require('./controllers/tokenRouter');
 const userRouter = require('./controllers/userRouter');
 const roomRouter = require('./controllers/roomRouter');
+const messageRouter = require('./controllers/messageRouter');
 
 (async () => {
   try {
@@ -35,6 +36,7 @@ app.use(tokenExtractor)
 app.use('/api/token', tokenRouter);
 app.use('/api/users', userRouter);
 app.use('/api/rooms', roomRouter);
+app.use('/api/messages', messageRouter);
 
 app.use(catchAll);
 

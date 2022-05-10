@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const messageSchemaa = new mongoose.Schema({
+const messageSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -9,8 +9,8 @@ const messageSchemaa = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room'
   },
-  timestamp: String,
-  text: String
+  text: String,
+  timestamp: String
 });
 
 messageSchema.set('toJSON', {

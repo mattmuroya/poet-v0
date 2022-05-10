@@ -18,6 +18,20 @@ messageRouter.get('/', async (req, res) => {
   const messages = await Message.find({
     roomId
   });
-
   console.log(messages);
+  res.end();
 });
+
+messageRouter.post('/', async (req, res) => {
+  const { author, room, text, timestamp  } = req.body;
+  const message = new Message({
+    author,
+    room,
+    text,
+    timestamp: timestamp ? new Date(timestamp) : new Date()
+  });
+  const savedMessage = await message.save();
+  res.status(201).json(savedMessage);
+});
+
+module.exports = messageRouter;
