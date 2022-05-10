@@ -8,7 +8,9 @@ const buddyList = ({ user, room, handleSignOut, joinRoom }) => {
       <ul>
         {user.buddyList.map(buddy => (
           <li key={buddy.id}>
-            <button onClick={() => joinRoom(user.id, buddy.id)}>{buddy.screenName}</button>
+            <button onClick={() => joinRoom(user.id, buddy.id)}>
+              {buddy.screenName}
+            </button>
           </li>
         ))}
       </ul>

@@ -53,6 +53,7 @@ const App = () => {
 
   const handleSignOut = () => {
     socket.disconnect();
+    setErrorMessage(null);
     setRoom(null);
     setUser(null);
     setSocket(null);

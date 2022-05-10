@@ -85,6 +85,9 @@ describe('posting messages', () => {
         room: room._id
       })
       .expect(201);
+
+      const messagesFromDb = await Message.find({});
+      expect(messagesFromDb).toHaveLength(3);
   });
 
   test('post message fails with invalid token', async () => {

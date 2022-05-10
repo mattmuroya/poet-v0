@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 const ChatWindow = ({ socket, user, room }) => {
 
@@ -7,6 +8,20 @@ const ChatWindow = ({ socket, user, room }) => {
   const otherUsers = room.users.filter(roomUser => roomUser.id !== user.id);
 
   useEffect(() => {
+    (async () => {
+      const messages = await axios.get('/api/messages', {
+        headers: {
+          Authorization: `bearer ${user.token}`
+        },
+        params: {
+          room: room.id
+        }
+      });
+      setMessages(messages.data);
+    })();
+  }, [user, room]);
+
+  useEffect(() => {
     socket.on('receive_message', incomingMessageHandler);
      return () => {
        socket.off('receive_message', incomingMessageHandler);
@@ -14,21 +29,28 @@ const ChatWindow = ({ socket, user, room }) => {
   }, [socket]);
 
   const incomingMessageHandler = message => {
-    console.log('incoming message received: ', message.text);
     setMessages(prevMessages => [...prevMessages, message]);
   }
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
-    if (newMessageText.trim() === '') return;
-    const newMessage = {
-      text: newMessageText,
-      room: room.id,
-      author: user.id
-    };
-    socket.emit('send_message', newMessage);
-    setMessages(prevMessages => [...prevMessages, newMessage]);
-    setNewMessageText('');
+    try {
+      if (newMessageText.trim() === '') return;
+      const newMessage = {
+        text: newMessageText,
+        room: room.id,
+      };
+      axios.post('/api/messages', newMessage, {
+        headers: {
+          Authorization: `bearer ${user.token}`
+        }
+      })
+      socket.emit('send_message', newMessage);
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+      setNewMessageText('');
+    } catch (err) {
+      console.error(err.response.data);
+    }
   };
 
 
