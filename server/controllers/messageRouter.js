@@ -22,7 +22,8 @@ messageRouter.get('/', async (req, res) => {
 });
 
 messageRouter.post('/', async (req, res) => {
-  const { author, room, text, timestamp  } = req.body;
+  const { room, text, timestamp  } = req.body;
+  const author = jwt.verify(req.token, process.env.JWT_SECRET).id;
   const message = new Message({
     author,
     room,

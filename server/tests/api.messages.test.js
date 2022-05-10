@@ -11,7 +11,7 @@ const { resetTestDb } = require('./utils');
 
 beforeAll(resetTestDb);
 
-let token, tokenWrongUser;
+let token, token2;
 
 beforeAll(async () => {
   const res = await api.post('/api/users/sign-on')
@@ -21,22 +21,19 @@ beforeAll(async () => {
     });
   token = res.body.token;
 
-  console.log('token: ', token)
-
   const res2 = await api.post('/api/users/sign-on')
     .send({
       screenName: 'root',
       password: 'root1234'
     });
-  tokenWrongUser = res2.body.token;
+  token2 = res2.body.token;
 });
 
 
 describe('getting messages', () => {
-
-  test('can get messages', async () => {
+  test('can get messages based on room id', async () => {
     const room = await Room.findOne({});
-    const res = await api.get('/api/messages/')
+    await api.get('/api/messages/')
       .set({
         Authorization: `bearer ${token}`
       })
@@ -44,10 +41,63 @@ describe('getting messages', () => {
         room: room._id.toString(),
       })
       .expect(200);
-      console.log(res.body);
+    //
+  });
+
+  test('get messages fails with invalid token', async () => {
+    const room = await Room.findOne({});
+    await api.get('/api/messages/')
+      .set({
+        Authorization: `bearer BADTOKEN`
+      })
+      .query({
+        room: room._id.toString(),
+      })
+      .expect(401);
     //
   });
 });
+
+describe('posting messages', () => {
+  test('can post new messages to the DB', async () => {
+    const room = await Room.findOne({});
+    await api.post('/api/messages/')
+      .set({
+        Authorization: `bearer ${token}`
+      })
+      .send({
+        text: 'message from test file',
+        room: room._id
+      })
+      .expect(201);
+  });
+
+  test('second user can post new messages to the DB', async () => {
+    const room = await Room.findOne({});
+    await api.post('/api/messages/')
+      .set({
+        Authorization: `bearer ${token2}`
+      })
+      .send({
+        text: 'second user message from test file',
+        room: room._id
+      })
+      .expect(201);
+  });
+
+  test('post message fails with invalid token', async () => {
+    const room = await Room.findOne({});
+    await api.post('/api/messages/')
+      .set({
+        Authorization: `bearer BADTOKEN`
+      })
+      .send({
+        text: 'second user message from test file',
+        room: room._id
+      })
+      .expect(401);
+  });
+})
 
 afterAll(async () => {
   await mongoose.connection.close();
