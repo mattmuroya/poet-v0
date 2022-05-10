@@ -4,6 +4,7 @@ const app = require('../app');
 const Message = require('../models/room');
 const api = supertest(app);
 
+const Room = require('../models/room');
 const User = require('../models/user');
 
 const { resetTestDb } = require('./utils');
@@ -31,10 +32,20 @@ beforeAll(async () => {
 });
 
 
-describe('test', () => {
+describe('getting messages', () => {
 
-  test('test', async () => {
-    expect(1+1).toBe(2);
+  test('can get messages', async () => {
+    const room = await Room.findOne({});
+    const res = await api.get('/api/messages/')
+      .set({
+        Authorization: `bearer ${token}`
+      })
+      .query({
+        room: room._id.toString(),
+      })
+      .expect(200);
+      console.log(res.body);
+    //
   });
 });
 

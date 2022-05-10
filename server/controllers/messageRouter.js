@@ -14,12 +14,11 @@ messageRouter.use('/', (req, res, next) => {
 });
 
 messageRouter.get('/', async (req, res) => {
-  const { roomId } = req.query;
+  const { room } = req.query;
   const messages = await Message.find({
-    roomId
+    room
   });
-  console.log(messages);
-  res.end();
+  res.json(messages);
 });
 
 messageRouter.post('/', async (req, res) => {
