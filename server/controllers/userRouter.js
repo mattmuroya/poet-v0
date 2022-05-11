@@ -47,12 +47,12 @@ userRouter.post('/register', async (req, res) => {
   const { screenName, password } = req.body;
 
   if (!(screenName && password)) {
-    return res.status(400).json({ error: 'ScreenName and password required.' });
+    return res.status(400).json({ error: 'Screen Name and password required.' });
   }
 
   if (await User.findOne({ screenName })) {
     return res.status(409).json({
-      error: 'ScreenName already exists.'
+      error: 'Sorry, that Screen Name is already taken.'
     });
   }
 

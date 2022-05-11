@@ -36,6 +36,21 @@ const App = () => {
     if (user) setSocket(io.connect('/'));
   }, [user]);
 
+  const handleRegistration = async (screenName, password) => {
+    try {
+      const user = await axios.post('/api/users/register', {
+        screenName,
+        password
+      });
+      localStorage.setItem('savedUser', JSON.stringify(user.data));
+      setUser(user.data);
+      setErrorMessage('');
+    } catch (err) {
+      console.error(err.response.data);
+      setErrorMessage(err.response.data.error);
+    }
+  };
+
   const handleSignOn = async (screenName, password) => {
     try {
       const user = await axios.post('/api/users/sign-on', {
@@ -83,7 +98,10 @@ const App = () => {
     <div>
       {checkedForSavedUser && !user &&
         <div>
-          <SignOn handleSignOn={handleSignOn} />
+          <SignOn
+            handleRegistration={handleRegistration}
+            handleSignOn={handleSignOn}
+          />
           {errorMessage}
         </div>
       }

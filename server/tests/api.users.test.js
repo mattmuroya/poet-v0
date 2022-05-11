@@ -25,7 +25,7 @@ describe('user registration', () => {
         password: 'hunter-3'
       })
       .expect(409);
-    expect(response.error.text).toBe('{"error":"ScreenName already exists."}');
+    expect(response.error.text).toBe('{"error":"Sorry, that Screen Name is already taken."}');
   });
 
   test('missing ScreenName rejected', async () => {
@@ -34,7 +34,7 @@ describe('user registration', () => {
         password: 'noScreenName'
       })
       .expect(400);
-    expect(response.error.text).toBe('{"error":"ScreenName and password required."}');
+    expect(response.error.text).toBe('{"error":"Screen Name and password required."}');
   });
 
   test('missing password rejected', async () => {

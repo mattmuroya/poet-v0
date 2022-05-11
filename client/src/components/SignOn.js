@@ -1,17 +1,19 @@
 import { useState } from 'react';
 
-const SignOn = ({ handleSignOn }) => {
+const SignOn = ({ handleSignOn, handleRegistration }) => {
   const [screenName, setScreenName] = useState('');
   const [password, setPassword] = useState('');
+  const [registrationMode, setRegistrationMode] = useState(false);
 
   return (
     <div>
-      <h2>Sign On</h2>
+      <h2>{registrationMode? 'Register' : 'Sign On'}</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSignOn(screenName, password)}
-        }
+          !registrationMode && handleSignOn(screenName, password);
+          registrationMode && handleRegistration(screenName, password);
+        }}
       >
         <div>
           <label htmlFor="screen-name">Screen Name</label>
@@ -29,8 +31,11 @@ const SignOn = ({ handleSignOn }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Sign On</button>
+        <button type="submit">{registrationMode? 'Register' : 'Sign On'}</button>
       </form>
+      <button onClick={() => setRegistrationMode(!registrationMode)}>
+        {registrationMode ? 'Already have a Screen Name?' : 'Need a Screen Name?'}
+      </button>
     </div>
   );
 };
