@@ -17,7 +17,7 @@ messageRouter.get('/', async (req, res) => {
   const { room } = req.query;
   const messages = await Message.find({
     room
-  });
+  }).populate('author', { screenName: 1 });
   res.json(messages);
 });
 

@@ -37,10 +37,11 @@ const ChatWindow = ({ socket, user, room }) => {
     try {
       if (newMessageText.trim() === '') return;
       const newMessage = {
+        author: user.screenName,
         text: newMessageText,
         room: room.id,
       };
-      axios.post('/api/messages', newMessage, {
+      await axios.post('/api/messages', newMessage, {
         headers: {
           Authorization: `bearer ${user.token}`
         }
@@ -66,7 +67,9 @@ const ChatWindow = ({ socket, user, room }) => {
         <h2>chat</h2>
         <ul>
           {messages.map((message, i) => (
-            <li key={i}>{message.text}</li>
+            <li key={i}>
+              {message.author.screenName || message.author}: {message.text}
+            </li>
           ))}
         </ul>
         <form onSubmit={sendMessage}>
