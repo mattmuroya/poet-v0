@@ -4,11 +4,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 userRouter.get('/', async (req, res) => {
-  const users = await User.find({})
-    .populate('buddyList', {
-      screenName: 1,
-      id: 1
-    });
+  const users = await User.find({}, {screenName: 1, id: 1})
+    // .populate('buddyList', {
+    //   screenName: 1,
+    //   id: 1
+    // });
   res.json(users);
 });
 

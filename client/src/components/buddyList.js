@@ -1,10 +1,16 @@
-const buddyList = ({ user, room, handleSignOut, joinRoom }) => {
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import UserSearch from './UserSearch';
+
+const BuddyList = ({ user, handleSignOut, joinRoom }) => {
   
   return (
     <div>
       <span>hello, {user.screenName}</span>
       <button onClick={handleSignOut}>sign out</button>
-      <p>your buddies:</p>
+      <UserSearch />
+      <p>your buddy list:</p>
       <ul>
         {user.buddyList.map(buddy => (
           <li key={buddy.id}>
@@ -18,4 +24,4 @@ const buddyList = ({ user, room, handleSignOut, joinRoom }) => {
   );
 };
 
-export default buddyList;
+export default BuddyList;
