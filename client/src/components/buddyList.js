@@ -9,7 +9,7 @@ const BuddyList = ({ user, handleSignOut, joinRoom }) => {
     <div>
       <span>hello, {user.screenName}</span>
       <button onClick={handleSignOut}>sign out</button>
-      <UserSearch />
+      <UserSearch user={user} />
       <p>your buddy list:</p>
       <ul>
         {user.buddyList.map(buddy => (

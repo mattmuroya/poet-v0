@@ -15,6 +15,13 @@ const userSchema = new mongoose.Schema({
       // specify 'User' model referenced by this obj Id references
       ref: 'User'
     }
+  ],
+  invites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      // specify 'User' model referenced by this obj Id references
+      ref: 'User'
+    }
   ]
 });
 

@@ -1,28 +1,44 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Select from 'react-select';
 
-const UserSearch = () => {
+const UserSearch = ({ user }) => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     (async () => {
       const res = await axios.get('/api/users');
-        const users = res.data.map(user => {
-          return { value: user.screenName, label: user.screenName };
-        });
-        setUserList(users);
-        console.log(users);
+        setUserList(res.data);
     })();
   }, []);
+
+  const sendInvite = async (userId) => {
+    console.log('sending invite')
+    const invitedUser = await axios.put(`/api/users/${userId}`, {}, {
+      headers: {
+        Authorization: `bearer ${user.token}`
+      }
+    });
+    console.log(invitedUser)
+  };
 
   return (
     <div>
       <p>invite someone to chat:</p>
-      <Select
-        classNamePrefix='react-select'
-        options={userList}
-      />
+      <ul>
+        {userList.filter(elem => (
+          elem.id !== user.id
+          // not already in buddy list
+          && !user.buddyList.some(buddy => buddy.id === elem.id)
+        ))
+        .map(elem => (
+          <li key={elem.id}>
+            {elem.screenName}
+            {elem.invites.includes(user.id)
+              ? <button disabled>invite sent</button>
+              : <button onClick={() => sendInvite(elem.id)}>send invite</button>}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

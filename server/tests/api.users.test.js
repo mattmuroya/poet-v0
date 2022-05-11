@@ -43,7 +43,7 @@ describe('user registration', () => {
         screenName: 'noPassword'
       })
       .expect(400);
-    expect(response.error.text).toBe('{"error":"ScreenName and password required."}');
+    expect(response.error.text).toBe('{"error":"Screen Name and password required."}');
   });
 });
 

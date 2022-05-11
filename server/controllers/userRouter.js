@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 userRouter.get('/', async (req, res) => {
-  const users = await User.find({}, {screenName: 1, id: 1})
+  const users = await User.find({})
     // .populate('buddyList', {
     //   screenName: 1,
     //   id: 1
@@ -71,10 +71,25 @@ userRouter.post('/register', async (req, res) => {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = new User({
     screenName,
-    passwordHash
+    passwordHash,
+    invites: []
   });
   await user.save();
   res.status(201).json(user);
+});
+
+userRouter.put('/:id', async (req, res) => {
+  const decodedToken = jwt.verify(req.token, process.env.JWT_SECRET);
+  const user = await User.findById(req.params.id);
+  if (user.invites.includes(decodedToken.id)) {
+    res.status(409).json({
+      error: "Invite already sent."
+    });
+  }
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, {
+    invites: user.invites.concat(decodedToken.id)
+  }, { new: true });
+  res.json(updatedUser);
 });
 
 module.exports = userRouter;

@@ -24,6 +24,12 @@ const resetTestDb = async () => {
       password: 'root1234'
     });
 
+  const test = await api.post('/api/users/register')
+    .send({
+      screenName: 'test',
+      password: 'test1234'
+    });
+
   await User.findByIdAndUpdate(admin.body.id, {
     // automatically converts to ObjectId type
     $push: { 'buddyList': root.body.id }
