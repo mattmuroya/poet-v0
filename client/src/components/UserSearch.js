@@ -7,7 +7,8 @@ const UserSearch = ({ user }) => {
   useEffect(() => {
     (async () => {
       const res = await axios.get('/api/users');
-        setUserList(res.data);
+      setUserList(res.data);
+      console.log(res.data)
     })();
   }, []);
 
@@ -18,7 +19,15 @@ const UserSearch = ({ user }) => {
         Authorization: `bearer ${user.token}`
       }
     });
-    console.log(invitedUser)
+    console.log(invitedUser);
+    const newUserList = userList.map(elem => {
+      if (elem.id === invitedUser.data.id) {
+        return invitedUser.data;
+      }
+      return elem;
+    });
+    console.log(newUserList)
+    setUserList(newUserList);
   };
 
   return (
