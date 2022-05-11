@@ -5,6 +5,7 @@ const api = supertest(app);
 const User = require('../models/user');
 const Room = require('../models/room');
 const Message = require('../models/message');
+const { info } = require('../utils/info');
 
 const resetTestDb = async () => {
   await Message.deleteMany({});
@@ -67,6 +68,13 @@ const resetTestDb = async () => {
     });
 };
 
+const reset = async () => {
+  await resetTestDb();
+  await require('mongoose').connection.close();
+  info('test Db reset complete')
+}
+
 module.exports = {
-  resetTestDb
+  resetTestDb,
+  reset
 };
