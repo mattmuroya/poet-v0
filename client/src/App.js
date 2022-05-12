@@ -5,6 +5,8 @@ import axios from 'axios';
 import SignOn from './components/SignOn';
 import BuddyList from './components/BuddyList';
 import ChatWindow from './components/ChatWindow';
+import Invitations from './components/Invitations';
+import UserSearch from './components/UserSearch';
 
 const App = () => {
   const [socket, setSocket] = useState(null);
@@ -106,12 +108,18 @@ const App = () => {
         </div>
       }
       {user &&
-        <BuddyList
-          user={user}
-          room={room}
-          handleSignOut={handleSignOut}
-          joinRoom={joinRoom}
-        />
+        <>
+          <div>hello, {user.screenName}</div>
+          <button onClick={handleSignOut}>sign out</button>
+          <Invitations user={user} />
+          <UserSearch user={user} />
+          <BuddyList
+            user={user}
+            room={room}
+            handleSignOut={handleSignOut}
+            joinRoom={joinRoom}
+          />
+        </>
       }
       {room &&
         <ChatWindow

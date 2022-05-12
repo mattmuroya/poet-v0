@@ -12,11 +12,22 @@ userRouter.get('/', async (req, res) => {
   res.json(users);
 });
 
+userRouter.get('/:id/invites', async (req, res) => {
+  const user = await User.findById(req.params.id)
+      .populate('invites', 'screenName');
+    // .populate('buddyList', {
+    //   screenName: 1,
+    //   id: 1
+    // });
+  res.json(user.invites);
+});
+
 userRouter.post('/sign-on', async (req, res) => {
   const { screenName, password } = req.body;
   const user = await User.findOne({ screenName })
     // populate buddyList with screenName (and id by default) only
-    .populate('buddyList', 'screenName');
+    .populate('buddyList', 'screenName')
+    .populate('invites', 'screenName');
 
   const passwordCorrect = user === null
     ? false
@@ -39,6 +50,7 @@ userRouter.post('/sign-on', async (req, res) => {
     token,
     screenName: user.screenName,
     buddyList: user.buddyList,
+    invites: user.invites,
     id: user._id.toString(),
   });
 });

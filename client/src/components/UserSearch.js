@@ -8,25 +8,21 @@ const UserSearch = ({ user }) => {
     (async () => {
       const res = await axios.get('/api/users');
       setUserList(res.data);
-      console.log(res.data)
     })();
   }, []);
 
   const sendInvite = async (userId) => {
-    console.log('sending invite')
     const invitedUser = await axios.put(`/api/users/${userId}`, {}, {
       headers: {
         Authorization: `bearer ${user.token}`
       }
     });
-    console.log(invitedUser);
     const newUserList = userList.map(elem => {
       if (elem.id === invitedUser.data.id) {
         return invitedUser.data;
       }
       return elem;
     });
-    console.log(newUserList)
     setUserList(newUserList);
   };
 
